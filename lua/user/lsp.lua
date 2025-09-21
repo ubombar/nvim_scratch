@@ -44,7 +44,7 @@ local capabilities = vim.tbl_deep_extend(
     require("cmp_nvim_lsp").default_capabilities()
 )
 
-local function common_on_attach(_, bufnr)
+local function common_on_attach(client, bufnr)
     vim.keymap.set("n", "<leader>gd", vim.lsp.buf.definition, {
         buffer = bufnr,
         silent = true,
@@ -82,13 +82,15 @@ local function common_on_attach(_, bufnr)
         desc = "LSP: Code actions",
     })
 
-    -- format on save
-    vim.api.nvim_create_autocmd("BufWritePre", {
-        buffer = bufnr,
-        callback = function()
-            vim.lsp.buf.format({ async = false })
-        end,
-    })
+    -- format on save, enable if the lsp supports it by default
+    if client.server_capabilities.documentFormattingProvider then
+        vim.api.nvim_create_autocmd("BufWritePre", {
+            buffer = bufnr,
+            callback = function()
+                vim.lsp.buf.format({ async = false })
+            end,
+        })
+    end
 end
 
 -- Configure LSPs with new Neovim API
@@ -145,7 +147,7 @@ vim.lsp.config("rust_analyzer", {
     settings = {
         ["rust-analyzer"] = {
             cargo = { allFeatures = true },
-            checkOnSave = { command = "clippy" },
+            checkOnSave = true,
             diagnostics = { enable = true },
         },
     },

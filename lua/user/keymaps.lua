@@ -20,8 +20,18 @@ map("n", "<C-k>", "<C-w>k", { desc = "Move to above window" })
 -- Resize splits with arrows
 map("n", "<C-Up>", ":resize +2<CR>", { desc = "Increase window height" })
 map("n", "<C-Down>", ":resize -2<CR>", { desc = "Decrease window height" })
-map("n", "<C-Left>", ":vertical resize -2<CR>", { desc = "Decrease window width" })
-map("n", "<C-Right>", ":vertical resize +2<CR>", { desc = "Increase window width" })
+map(
+    "n",
+    "<C-Left>",
+    ":vertical resize -2<CR>",
+    { desc = "Decrease window width" }
+)
+map(
+    "n",
+    "<C-Right>",
+    ":vertical resize +2<CR>",
+    { desc = "Increase window width" }
+)
 
 -- Splits
 map("n", "<leader>sv", "<C-w>v", { desc = "Vertical split" })
@@ -35,9 +45,36 @@ map("n", "<leader>bp", ":bprev<CR>", { desc = "Previous buffer" })
 map("n", "<leader>bd", ":bdelete<CR>", { desc = "Delete buffer" })
 
 -- Quick save/quit
-map("n", "<leader>w", ":w<CR>", { desc = "Save file" })
-map("n", "<leader>q", ":q<CR>", { desc = "Quit" })
-map("n", "<leader>x", ":x<CR>", { desc = "Save & Quit" })
+map("n", "<leader>W", ":w<CR>", { desc = "Save file" })
+map("n", "<leader>q", ":q!<CR>", { desc = "Quit" })
+map("n", "<leader>X", function()
+    local bufnr = vim.api.nvim_get_current_buf()
+
+    -- Go to next buffer first
+    if vim.fn.bufnr("$") > 1 then
+        vim.cmd("bnext")
+    else
+        vim.cmd("enew") -- if it's the only buffer, open a new empty one
+    end
+
+    -- If buffer is modified, force delete
+    if vim.bo[bufnr].modified then
+        vim.cmd("bd! " .. bufnr)
+    else
+        vim.cmd("bd " .. bufnr)
+    end
+end, { desc = "Close buffer and go to next (force if unsaved)" })
+map("n", "<leader>x", function()
+    local bufnr = vim.api.nvim_get_current_buf()
+    vim.cmd("bnext") -- go to next buffer (wraps around if last)
+    vim.cmd("bd " .. bufnr) -- delete the old one
+end, { desc = "Close buffer and go to next" })
+map(
+    "n",
+    "<leader>n",
+    ":enew<CR>",
+    { noremap = true, silent = true, desc = "New buffer" }
+)
 
 -- Stay in indent mode
 map("v", "<", "<gv", { desc = "Indent left" })
