@@ -3,7 +3,13 @@ local mason_laspconfig = require("mason-lspconfig")
 
 mason.setup()
 mason_laspconfig.setup({
-    ensure_installed = { "gopls" },
+    ensure_installed = {
+        "gopls", -- Go
+        "pyright", -- Python
+        "lua_ls", -- Lua
+        "rust_analyzer", -- Rust
+        "vtsls", -- TypeScript/JavaScript
+    },
 })
 
 -- nvim-cmp setup
@@ -38,26 +44,57 @@ local capabilities = vim.tbl_deep_extend(
     require("cmp_nvim_lsp").default_capabilities()
 )
 
--- Configure gopls with new Neovim API
+local function common_on_attach(_, bufnr)
+    vim.keymap.set("n", "<leader>gd", vim.lsp.buf.definition, {
+        buffer = bufnr,
+        silent = true,
+        noremap = true,
+        desc = "LSP: Go to definition",
+    })
+    vim.keymap.set("n", "<leader>gD", vim.lsp.buf.declaration, {
+        buffer = bufnr,
+        silent = true,
+        noremap = true,
+        desc = "LSP: Go to declaration",
+    })
+    vim.keymap.set("n", "<leader>gr", vim.lsp.buf.references, {
+        buffer = bufnr,
+        silent = true,
+        noremap = true,
+        desc = "LSP: List references",
+    })
+    vim.keymap.set("n", "K", vim.lsp.buf.hover, {
+        buffer = bufnr,
+        silent = true,
+        noremap = true,
+        desc = "LSP: Hover documentation",
+    })
+    vim.keymap.set("n", "<leader>r", vim.lsp.buf.rename, {
+        buffer = bufnr,
+        silent = true,
+        noremap = true,
+        desc = "LSP: Rename symbol",
+    })
+    vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, {
+        buffer = bufnr,
+        silent = true,
+        noremap = true,
+        desc = "LSP: Code actions",
+    })
+
+    -- format on save
+    vim.api.nvim_create_autocmd("BufWritePre", {
+        buffer = bufnr,
+        callback = function()
+            vim.lsp.buf.format({ async = false })
+        end,
+    })
+end
+
+-- Configure LSPs with new Neovim API
 vim.lsp.config("gopls", {
     capabilities = capabilities,
-    on_attach = function(_, bufnr)
-        local opts = { buffer = bufnr, silent = true, noremap = true }
-        vim.keymap.set("n", "<leader>gd", vim.lsp.buf.definition, opts)
-        vim.keymap.set("n", "<leader>gD", vim.lsp.buf.declaration, opts)
-        vim.keymap.set("n", "<leader>gr", vim.lsp.buf.references, opts)
-        vim.keymap.set("n", "K", vim.lsp.buf.hover, opts)
-        vim.keymap.set("n", "<leader>r", vim.lsp.buf.rename, opts)
-        vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, opts)
-
-        -- format on save
-        vim.api.nvim_create_autocmd("BufWritePre", {
-            buffer = bufnr,
-            callback = function()
-                vim.lsp.buf.format({ async = false })
-            end,
-        })
-    end,
+    on_attach = common_on_attach,
     settings = {
         gopls = {
             gofumpt = true,
@@ -70,6 +107,74 @@ vim.lsp.config("gopls", {
         },
     },
 })
+
+vim.lsp.config("pyright", {
+    capabilities = capabilities,
+    on_attach = common_on_attach,
+    settings = {
+        python = {
+            analysis = {
+                autoImportCompletions = true,
+                typeCheckingMode = "basic",
+            },
+        },
+    },
+})
+
+vim.lsp.config("lua_ls", {
+    capabilities = capabilities,
+    on_attach = common_on_attach,
+    settings = {
+        Lua = {
+            diagnostics = { globals = { "vim" } },
+            workspace = {
+                library = {
+                    vim.fn.expand("$VIMRUNTIME/lua"),
+                    vim.fn.expand("$VIMRUNTIME/lua/vim/lsp"),
+                },
+                checkThirdParty = false,
+            },
+            telemetry = { enable = false },
+        },
+    },
+})
+
+vim.lsp.config("rust_analyzer", {
+    capabilities = capabilities,
+    on_attach = common_on_attach,
+    settings = {
+        ["rust-analyzer"] = {
+            cargo = { allFeatures = true },
+            checkOnSave = { command = "clippy" },
+            diagnostics = { enable = true },
+        },
+    },
+})
+
+vim.lsp.config("vtsls", {
+    capabilities = capabilities,
+    on_attach = common_on_attach,
+    settings = {
+        typescript = { inlayHints = { parameterNames = { enabled = "all" } } },
+    },
+})
+
+-- vim.lsp.config("ocaml-lsp", {
+-- 	capabilities = capabilities,
+-- 	on_attach = common_on_attach,
+-- 	cmd = { "ocamllsp" }, -- make sure it's in your PATH
+-- 	filetypes = { "ocaml", "ocaml.interface", "ocaml.menhir", "ocaml.ocamllex" },
+-- 	root_dir = vim.fs.dirname(
+-- 		vim.fs.find(
+-- 			{ "dune-project", "dune-workspace", ".git" },
+-- 			{ upward = true }
+-- 		)[1]
+-- 	),
+-- 	settings = {
+-- 		codelens = { enable = true },
+-- 		inlayHints = { enable = true },
+-- 	},
+-- })
 
 -- Treesitter
 require("nvim-treesitter.configs").setup({
