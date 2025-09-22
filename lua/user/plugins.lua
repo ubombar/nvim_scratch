@@ -474,6 +474,24 @@ require("lazy").setup({
 				end
 			end, { desc = "Exit terminal mode and hide floating terminal" })
 		end,
-	}
+	},
+	-- Glow: Renders markdown.
+	{
+		"ellisonleao/glow.nvim",
+		ft = "markdown",
+		config = function()
+			require("glow").setup({
+				border = "rounded", -- floating window border style: "none" | "single" | "double" | "rounded" | "solid" | "shadow"
+				style = "dark", -- "dark" | "light" | "auto"  (auto picks based on background setting)
+				pager = false, -- use a pager to scroll overflow (like less)
+				width = 120, -- number of columns
+				height = 40, -- number of rows
+				width_ratio = 0.7, -- max width of glow window relative to terminal (0–1)
+				height_ratio = 0.8, -- max height of glow window relative to terminal (0–1)
+			})
 
+			-- Keymaps
+			vim.keymap.set("n", "<Leader>m", "<cmd>Glow<CR>", { desc = "Preview Markdown" })
+		end,
+	}
 })
