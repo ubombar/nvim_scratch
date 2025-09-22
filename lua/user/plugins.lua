@@ -106,7 +106,7 @@ require("lazy").setup({
 		config = function()
 			require("nvim-tree").setup({
 				view = {
-					width = 26,
+					width = 30,
 					side = "left",
 				},
 				renderer = {
@@ -333,6 +333,7 @@ require("lazy").setup({
 			})
 		end,
 	},
+	-- Comment: Adds <space>/ for comments.
 	{
 		"numToStr/Comment.nvim",
 		config = function()
@@ -352,15 +353,19 @@ require("lazy").setup({
 			end, { desc = "Toggle comment (visual)" })
 		end,
 	},
+	-- LSPConfig: A helper for LSP configurations.
 	{
 		"neovim/nvim-lspconfig",
 	},
+	-- Mason: Used for installing LSPs.
 	{
 		"williamboman/mason.nvim",
 	},
+	-- LSPConfig: Used for configuring the language servers.
 	{
 		"williamboman/mason-lspconfig.nvim",
 	},
+	-- CMP: User for adding completions.
 	{
 		"hrsh7th/nvim-cmp",
 		dependencies = {
@@ -370,15 +375,105 @@ require("lazy").setup({
 			"L3MON4D3/LuaSnip",
 		},
 	},
+	-- Lint: Used for linting stuff
 	{
-		"mfussenegger/nvim-lint", -- linting
+		"mfussenegger/nvim-lint",
 	},
+	-- Conform: User for custom formatting.
 	{
-		"stevearc/conform.nvim", -- formatting
+		"stevearc/conform.nvim",
 	},
+	-- Autopairs: Closes paranthesis and quotes.
 	{
 		"windwp/nvim-autopairs",
 		event = "InsertEnter",
 		config = true, -- runs require("nvim-autopairs").setup({})
 	},
+	-- DAP: Debug Adapter Protocol for Go debugger.
+	{
+		"mfussenegger/nvim-dap",
+		dependencies = {
+			"leoluz/nvim-dap-go",
+			"rcarriga/nvim-dap-ui",
+		},
+	},
+	-- DAP-UI: Debug adapter ui.
+	{
+		"rcarriga/nvim-dap-ui",
+		dependencies = {
+			"mfussenegger/nvim-dap",
+			"nvim-neotest/nvim-nio", -- required
+		},
+		config = function()
+			local dap = require("dap")
+			local dapui = require("dapui")
+			dapui.setup()
+
+			-- auto open/close UI
+			dap.listeners.after.event_initialized["dapui_config"] = function() dapui.open() end
+			dap.listeners.before.event_terminated["dapui_config"] = function() dapui.close() end
+			dap.listeners.before.event_exited["dapui_config"] = function() dapui.close() end
+		end,
+	},
+	-- ToggleTerm: Terminal inside vim.
+	{
+		"akinsho/toggleterm.nvim",
+		version = "*",
+		config = function()
+			require("toggleterm").setup({
+				size = 15,
+				open_mapping = [[<C-\>]], -- toggle with Ctrl+\
+				shade_terminals = true,
+				shading_factor = 2,
+				direction = "float", -- "horizontal" | "vertical" | "tab" | "float"
+				float_opts = {
+					border = "curved",
+				},
+			})
+
+			local Terminal   = require("toggleterm.terminal").Terminal
+			local float_term = Terminal:new({ hidden = true, direction = "float" })
+
+
+			-- Open a *new* floating terminal (new tabbed instance)
+			function NewTabTerm()
+				local term = Terminal:new({ hidden = true, direction = "tab" })
+				term:toggle()
+			end
+
+			-- Keymaps
+			vim.keymap.set("n", "<leader>t", function()
+				if not float_term:is_open() then
+					float_term:toggle()
+				end
+			end, { desc = "Open floating terminal" })
+
+			-- vim.keymap.set("n", "<Leader>T", NewTabTerm, { desc = "New tab terminal" })
+			vim.keymap.set("n", "<leader>T", function()
+				vim.cmd("enew") -- create a new empty buffer
+				vim.cmd("term") -- open terminal inside it
+				vim.cmd("startinsert") -- jump straight into insert mode
+			end, { desc = "New terminal in new buffer" })
+
+			vim.keymap.set({ "t", "n" }, "<Esc><Esc>", function()
+				if float_term:is_open() then
+					float_term:toggle()
+				end
+			end, { desc = "Hide floating terminal" })
+
+			vim.keymap.set("t", "<Esc><Esc>", function()
+				-- leave terminal insert mode
+				vim.api.nvim_feedkeys(
+					vim.api.nvim_replace_termcodes("<C-\\><C-n>", true, false, true),
+					"n",
+					false
+				)
+				-- hide float if open
+				if float_term:is_open() then
+					float_term:toggle()
+				end
+			end, { desc = "Exit terminal mode and hide floating terminal" })
+		end,
+	}
+
 })
