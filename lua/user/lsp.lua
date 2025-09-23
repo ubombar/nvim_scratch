@@ -162,23 +162,6 @@ vim.lsp.config("vtsls", {
 	},
 })
 
--- vim.lsp.config("ocaml-lsp", {
--- 	capabilities = capabilities,
--- 	on_attach = common_on_attach,
--- 	cmd = { "ocamllsp" }, -- make sure it's in your PATH
--- 	filetypes = { "ocaml", "ocaml.interface", "ocaml.menhir", "ocaml.ocamllex" },
--- 	root_dir = vim.fs.dirname(
--- 		vim.fs.find(
--- 			{ "dune-project", "dune-workspace", ".git" },
--- 			{ upward = true }
--- 		)[1]
--- 	),
--- 	settings = {
--- 		codelens = { enable = true },
--- 		inlayHints = { enable = true },
--- 	},
--- })
-
 vim.lsp.config("nil_ls", {
 	capabilities = capabilities,
 	on_attach = common_on_attach,
@@ -190,7 +173,6 @@ vim.lsp.config("nil_ls", {
 		},
 	},
 })
-
 
 -- Treesitter
 require("nvim-treesitter.configs").setup({

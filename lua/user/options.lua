@@ -32,7 +32,7 @@ vim.opt.showmode = false
 --  Remove this option if you want your OS clipboard to remain independent
 --  See `:help 'clipboard'`
 vim.schedule(function()
-    vim.opt.clipboard = "unnamedplus"
+	vim.opt.clipboard = "unnamedplus"
 end)
 
 -- Enable break indent
@@ -64,20 +64,10 @@ vim.opt.splitbelow = true
 --  and `:help 'listchars'`
 vim.opt.list = true
 vim.opt.listchars = {
-    tab = "⇥ ",
-    trail = "·",
-    nbsp = "␣",
+	tab = "⇥ ",
+	trail = "·",
+	nbsp = "␣",
 }
--- vim.opt.listchars = {
--- 	tab = "⇥ ",
--- 	trail = "·",
--- 	nbsp = "␣",
--- 	eol = "↵",
--- 	extends = ">",
--- 	precedes = "<",
--- 	conceal = "¤",
--- 	unprintable = "?",
--- }
 
 -- Preview substitutions live, as you type
 vim.opt.inccommand = "split"
@@ -96,19 +86,12 @@ vim.opt.cmdheight = 0
 
 -- Flashes the text on a yank
 vim.api.nvim_create_autocmd("TextYankPost", {
-    desc = "Highlight when yanking (copying) text",
-    group = vim.api.nvim_create_augroup(
-        "kickstart-highlight-yank",
-        { clear = true }
-    ),
-    callback = function()
-        vim.highlight.on_yank()
-    end,
+	desc = "Highlight when yanking (copying) text",
+	group = vim.api.nvim_create_augroup(
+		"kickstart-highlight-yank",
+		{ clear = true }
+	),
+	callback = function()
+		vim.highlight.on_yank()
+	end,
 })
-
--- Format on save
--- vim.api.nvim_create_autocmd("BufWritePre", {
---     callback = function()
---         vim.lsp.buf.format()
---     end,
--- })
