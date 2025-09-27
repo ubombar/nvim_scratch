@@ -19,18 +19,8 @@ vim.keymap.set("n", "<C-k>", "<C-w>k", { desc = "Move to above window" })
 -- Resize splits with arrows
 vim.keymap.set("n", "<C-Up>", ":resize +2<CR>", { desc = "Increase window height" })
 vim.keymap.set("n", "<C-Down>", ":resize -2<CR>", { desc = "Decrease window height" })
-vim.keymap.set(
-	"n",
-	"<C-Left>",
-	":vertical resize -2<CR>",
-	{ desc = "Decrease window width" }
-)
-vim.keymap.set(
-	"n",
-	"<C-Right>",
-	":vertical resize +2<CR>",
-	{ desc = "Increase window width" }
-)
+vim.keymap.set("n", "<C-Left>", ":vertical resize -2<CR>", { desc = "Decrease window width" })
+vim.keymap.set("n", "<C-Right>", ":vertical resize +2<CR>", { desc = "Increase window width" })
 
 -- Splits
 vim.keymap.set("n", "<leader>sv", "<C-w>v", { desc = "Vertical split" })
@@ -65,7 +55,7 @@ vim.keymap.set("n", "<leader>X", function()
 end, { desc = "Close buffer and go to next (force if unsaved)" })
 vim.keymap.set("n", "<leader>x", function()
 	local bufnr = vim.api.nvim_get_current_buf()
-	vim.cmd("bnext")     -- go to next buffer (wraps around if last)
+	vim.cmd("bnext") -- go to next buffer (wraps around if last)
 	vim.cmd("bd " .. bufnr) -- delete the old one
 end, { desc = "Close buffer and go to next" })
 
@@ -90,3 +80,16 @@ vim.keymap.set("n", "<leader>ff", "<cmd>Telescope find_files<cr>", { desc = "Fin
 vim.keymap.set("n", "<leader>fg", "<cmd>Telescope live_grep<cr>", { desc = "Live grep" })
 vim.keymap.set("n", "<leader>fb", "<cmd>Telescope buffers<cr>", { desc = "Buffers" })
 vim.keymap.set("n", "<leader>fh", "<cmd>Telescope help_tags<cr>", { desc = "Help tags" })
+
+-- Gitsigns
+vim.keymap.set("n", "]c", ":Gitsigns next_hunk<CR>", { desc = "Next Git hunk" })
+vim.keymap.set("n", "[c", ":Gitsigns prev_hunk<CR>", { desc = "Previous Git hunk" })
+vim.keymap.set("n", "<leader>hs", ":Gitsigns stage_hunk<CR>", { desc = "Stage hunk" })
+vim.keymap.set("n", "<leader>hr", ":Gitsigns reset_hunk<CR>", { desc = "Reset hunk" })
+vim.keymap.set("n", "<leader>hp", ":Gitsigns preview_hunk<CR>", { desc = "Preview hunk" })
+vim.keymap.set("n", "<leader>hb", ":Gitsigns blame_line<CR>", { desc = "Git blame line (full)" })
+vim.keymap.set("n", "<leader>ht", ":Gitsigns toggle_current_line_blame<CR>", { desc = "Toggle inline blame" })
+
+-- Next and previous diagnostic (any severity)
+vim.keymap.set("n", "]d", vim.diagnostic.goto_next, { desc = "Next diagnostic" })
+vim.keymap.set("n", "[d", vim.diagnostic.goto_prev, { desc = "Previous diagnostic" })

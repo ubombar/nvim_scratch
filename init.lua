@@ -1,10 +1,3 @@
--- require("user.options")
--- require("user.keymaps")
--- require("user.plugins")
--- -- require("user.lsp")
--- -- require("user.format")
--- -- require("user.dap")
-
 require("config.options")
 require("core.lazy")
 require("core.lsp")
