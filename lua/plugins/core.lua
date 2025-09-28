@@ -112,9 +112,21 @@ return {
 			end, { desc = "Toggle comment (visual)" })
 		end,
 	},
+	-- AutoPairs: Automatically closes the opened pairs.
 	{
 		"windwp/nvim-autopairs",
 		event = "InsertEnter",
 		config = true, -- runs require("nvim-autopairs").setup({})
+	},
+	-- WindowPicker: Replaces the windows selection characters from A, B, C to numerics
+	{
+		"s1n7ax/nvim-window-picker",
+		name = "window-picker",
+		config = function()
+			require("window-picker").setup({
+				selection_chars = "123456789",
+				hint = "floating-big-letter", -- or "statusline-winbar"
+			})
+		end,
 	},
 }

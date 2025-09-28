@@ -1,12 +1,13 @@
 vim.lsp.enable({
-	"gopls",      -- Go
+	"gopls", -- Go
 	"rust_analyzer", -- Rust
-	"ts_ls",      -- TypeScript / JavaScript
-	"ocamllsp",   -- OCaml
-	"lua_ls",     -- Lua
-	"pyright",    -- Python
+	"ts_ls", -- TypeScript / JavaScript
+	"ocamllsp", -- OCaml
+	"lua_ls", -- Lua
+	"pyright", -- Python
+	"nil", -- Nix Language
+	"beautysh", -- Zsh and Bash
 })
-
 
 vim.diagnostic.config({
 	-- Show diagnostics as virtual text (inline)
@@ -30,7 +31,7 @@ vim.diagnostic.config({
 	-- Floating window config (for `vim.diagnostic.open_float()`)
 	float = {
 		border = "rounded",
-		source = "always", -- show source in diagnostic popup
+		source = true, -- show source in diagnostic popup
 		header = "",
 		prefix = "",
 	},
@@ -39,15 +40,15 @@ vim.diagnostic.config({
 	signs = {
 		text = {
 			[vim.diagnostic.severity.ERROR] = "󰅚 ",
-			[vim.diagnostic.severity.WARN]  = "󰀪 ",
-			[vim.diagnostic.severity.INFO]  = "󰋽 ",
-			[vim.diagnostic.severity.HINT]  = "󰌶 ",
+			[vim.diagnostic.severity.WARN] = "󰀪 ",
+			[vim.diagnostic.severity.INFO] = "󰋽 ",
+			[vim.diagnostic.severity.HINT] = "󰌶 ",
 		},
 		numhl = {
 			[vim.diagnostic.severity.ERROR] = "ErrorMsg",
-			[vim.diagnostic.severity.WARN]  = "WarningMsg",
-			[vim.diagnostic.severity.INFO]  = nil,
-			[vim.diagnostic.severity.HINT]  = nil,
+			[vim.diagnostic.severity.WARN] = "WarningMsg",
+			[vim.diagnostic.severity.INFO] = "",
+			[vim.diagnostic.severity.HINT] = "",
 		},
 	},
 })

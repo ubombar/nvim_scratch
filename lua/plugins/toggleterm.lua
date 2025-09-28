@@ -13,9 +13,8 @@ return {
 			},
 		})
 
-		local Terminal   = require("toggleterm.terminal").Terminal
+		local Terminal = require("toggleterm.terminal").Terminal
 		local float_term = Terminal:new({ hidden = true, direction = "float" })
-
 
 		-- Open a *new* floating terminal (new tabbed instance)
 		function NewTabTerm()
@@ -37,23 +36,13 @@ return {
 			vim.cmd("startinsert") -- jump straight into insert mode
 		end, { desc = "New terminal in new buffer" })
 
-		vim.keymap.set({ "t", "n" }, "<Esc><Esc>", function()
-			if float_term:is_open() then
-				float_term:toggle()
-			end
-		end, { desc = "Hide floating terminal" })
+		vim.keymap.set("t", "<Esc>", [[<Esc>]], { noremap = true })
 
-		vim.keymap.set("t", "<Esc><Esc>", function()
-			-- leave terminal insert mode
-			vim.api.nvim_feedkeys(
-				vim.api.nvim_replace_termcodes("<C-\\><C-n>", true, false, true),
-				"n",
-				false
-			)
-			-- hide float if open
+		vim.keymap.set("t", "<ESC>", function()
 			if float_term:is_open() then
 				float_term:toggle()
 			end
-		end, { desc = "Exit terminal mode and hide floating terminal" })
+			vim.cmd("stopinsert")
+		end, { desc = "Hide floating terminal" })
 	end,
 }
