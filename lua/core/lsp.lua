@@ -6,7 +6,7 @@ vim.lsp.enable({
 	"lua_ls", -- Lua
 	"pyright", -- Python
 	"nil", -- Nix Language
-	"beautysh", -- Zsh and Bash
+	"bashls", -- Zsh and Bash
 })
 
 vim.diagnostic.config({

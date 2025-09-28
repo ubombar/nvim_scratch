@@ -11,10 +11,10 @@ return {
 		},
 	},
 	{
-		"neovim/nvim-lspconfig",                          -- Core LSP client
+		"neovim/nvim-lspconfig", -- Core LSP client
 		dependencies = {
-			{ "williamboman/mason.nvim",          config = true }, -- LSP/DAP/linter installer
-			{ "williamboman/mason-lspconfig.nvim" },      -- Mason <-> LSP bridge
+			{ "williamboman/mason.nvim", config = true }, -- LSP/DAP/linter installer
+			{ "williamboman/mason-lspconfig.nvim" }, -- Mason <-> LSP bridge
 		},
 	},
 	{
@@ -30,13 +30,15 @@ return {
 					null_ls.builtins.formatting.gofmt, -- Go
 					null_ls.builtins.formatting.prettier, -- JS/TS
 					null_ls.builtins.formatting.ocamlformat, -- OCaml
-					null_ls.builtins.formatting.nixpkgs_fmt, -- ✅ Nix
+					null_ls.builtins.formatting.nixpkgs_fmt, -- Nix
+					null_ls.builtins.formatting.shfmt, -- Shell (sh/zsh/bash)
 
 					-- Linters (optional)
 					null_ls.builtins.diagnostics.eslint, -- JS/TS
+					null_ls.builtins.diagnostics.shellcheck, -- Shell linting
+					null_ls.builtins.code_actions.shellcheck, -- Opti
 				},
 			})
 		end,
-	}
-
+	},
 }
