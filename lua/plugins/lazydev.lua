@@ -23,20 +23,34 @@ return {
 		config = function()
 			local null_ls = require("null-ls")
 			null_ls.setup({
+				-- sources = {
+				-- 	-- Formatters
+				-- 	null_ls.builtins.formatting.stylua, -- Lua
+				-- 	null_ls.builtins.formatting.rustfmt, -- Rust
+				-- 	null_ls.builtins.formatting.gofmt, -- Go
+				-- 	null_ls.builtins.formatting.prettier, -- JS/TS
+				-- 	null_ls.builtins.formatting.ocamlformat, -- OCaml
+				-- 	null_ls.builtins.formatting.nixpkgs_fmt, -- Nix
+				-- 	null_ls.builtins.formatting.shfmt, -- Shell (sh/zsh/bash)
+				--
+				-- 	-- Linters (optional)
+				-- 	null_ls.builtins.diagnostics.eslint, -- JS/TS
+				-- 	null_ls.builtins.diagnostics.shellcheck, -- Shell linting
+				-- 	null_ls.builtins.code_actions.shellcheck, -- Opti
+				-- },
 				sources = {
-					-- Formatters
+					-- ✅ Formatters
 					null_ls.builtins.formatting.stylua, -- Lua
-					null_ls.builtins.formatting.rustfmt, -- Rust
 					null_ls.builtins.formatting.gofmt, -- Go
 					null_ls.builtins.formatting.prettier, -- JS/TS
 					null_ls.builtins.formatting.ocamlformat, -- OCaml
 					null_ls.builtins.formatting.nixpkgs_fmt, -- Nix
-					null_ls.builtins.formatting.shfmt, -- Shell (sh/zsh/bash)
+					null_ls.builtins.formatting.shfmt, -- Shell
 
-					-- Linters (optional)
-					null_ls.builtins.diagnostics.eslint, -- JS/TS
+					-- ✅ Linters
+					null_ls.builtins.diagnostics.eslint, -- JS/TS (requires eslint binary)
 					null_ls.builtins.diagnostics.shellcheck, -- Shell linting
-					null_ls.builtins.code_actions.shellcheck, -- Opti
+					null_ls.builtins.code_actions.shellcheck, -- Shell code actions
 				},
 			})
 		end,

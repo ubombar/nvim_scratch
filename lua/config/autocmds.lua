@@ -11,7 +11,26 @@ vim.api.nvim_create_autocmd("LspAttach", {
 		map("gl", vim.diagnostic.open_float, "Open Diagnostic Float")
 		map("K", vim.lsp.buf.hover, "Hover Documentation")
 		map("gs", vim.lsp.buf.signature_help, "Signature Documentation")
-		map("gD", vim.lsp.buf.declaration, "Goto Declaration")
+		-- map("gD", vim.lsp.buf.declaration, "Goto Declaration")
+		map("gd", function()
+			local clients = vim.lsp.get_clients({ bufnr = 0 })
+			local supported = false
+
+			for _, client in ipairs(clients) do
+				if client.server_capabilities.declarationProvider then
+					supported = true
+					break
+				end
+			end
+
+			if supported then
+				-- use the built-in helper (it will send textDocument/declaration)
+				vim.lsp.buf.declaration()
+			else
+				-- fallback to definition if declaration not supported
+				vim.lsp.buf.definition()
+			end
+		end, "Goto Declaration")
 		map("<leader>la", vim.lsp.buf.code_action, "Code Action")
 		map("<leader>lr", vim.lsp.buf.rename, "Rename all references")
 		map("<leader>lf", vim.lsp.buf.format, "Format")

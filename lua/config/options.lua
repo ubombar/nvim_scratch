@@ -39,7 +39,8 @@ vim.opt.breakindent = true
 -- Save undo history
 vim.opt.undofile = true
 
--- Case-insensitive searching UNLESS \C or one or more capital letters in the search term
+-- Case-insensitive searching UNLESS \C or one or more capital letters in the
+-- search term
 vim.opt.ignorecase = true
 vim.opt.smartcase = true
 
@@ -87,11 +88,65 @@ vim.opt.winborder = "solid"
 -- Flashes the text on a yank
 vim.api.nvim_create_autocmd("TextYankPost", {
 	desc = "Highlight when yanking (copying) text",
-	group = vim.api.nvim_create_augroup(
-		"kickstart-highlight-yank",
-		{ clear = true }
-	),
+	group = vim.api.nvim_create_augroup("kickstart-highlight-yank", {
+		clear = true,
+	}),
 	callback = function()
 		vim.highlight.on_yank()
+	end,
+})
+
+-- Add the line for alignment.
+vim.api.nvim_create_autocmd("FileType", {
+	pattern = {
+		-- Text / markup
+		-- "markdown",
+		-- "text",
+		-- "rst",
+
+		-- Programming languages
+		"python",
+		"javascript",
+		"typescript",
+		"javascriptreact",
+		"typescriptreact",
+		"go",
+		"c",
+		"cpp",
+		"rust",
+		"lua",
+		"java",
+		-- "php",
+		"ruby",
+		"perl",
+		"sh",
+		"bash",
+		"zsh",
+		"fish",
+		-- "html",
+		"css",
+		"scss",
+		-- "json",
+		-- "yaml",
+		-- "toml",
+		-- "dockerfile",
+		-- "make",
+		"cmake",
+		"swift",
+		"kotlin",
+		"zig",
+		"ocaml",
+		"haskell",
+		"elixir",
+		"erlang",
+		"scala",
+
+		-- Config files
+		-- "vim",
+		-- "vimwiki",
+		-- "gitcommit",
+	},
+	callback = function()
+		vim.opt_local.colorcolumn = "80"
 	end,
 })
