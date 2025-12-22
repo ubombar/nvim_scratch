@@ -110,7 +110,7 @@ vim.api.nvim_create_autocmd("FileType", {
 		"typescript",
 		"javascriptreact",
 		"typescriptreact",
-		"go",
+		-- "go", -- Go has a special value
 		"c",
 		"cpp",
 		"rust",
@@ -147,6 +147,16 @@ vim.api.nvim_create_autocmd("FileType", {
 		-- "gitcommit",
 	},
 	callback = function()
-		vim.opt_local.colorcolumn = "80"
+		vim.opt_local.colorcolumn = "120"
+	end,
+})
+
+-- Specifically for Go set it to 100.
+-- Go: 100 chars
+vim.api.nvim_create_autocmd("FileType", {
+	pattern = "go",
+	callback = function()
+		vim.opt_local.textwidth = 120
+		vim.opt_local.colorcolumn = "120"
 	end,
 })

@@ -29,7 +29,7 @@ return {
 			-- Optional: customize formatter behavior
 			formatters = {
 				golines = {
-					prepend_args = { "--max-len=100" },
+					prepend_args = { "--max-len=120" },
 				},
 				prettier = {
 					prepend_args = { "--tab-width", "2" },

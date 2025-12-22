@@ -1,7 +1,7 @@
 return {
 	{
 		"L3MON4D3/LuaSnip",
-		keys = {}
+		keys = {},
 	},
 	{
 		"saghen/blink.cmp",
@@ -36,7 +36,7 @@ return {
 						draw = {
 							columns = {
 								{ "kind_icon" },
-								{ "label",      "label_description", gap = 0 },
+								{ "label", "label_description", gap = 0 },
 								{ "kind" },
 								{ "source_name" },
 							},
@@ -46,7 +46,7 @@ return {
 						window = {
 							border = "rounded",
 							scrollbar = false,
-							winhighlight = 'Normal:BlinkCmpDoc,FloatBorder:BlinkCmpDocBorder,EndOfBuffer:BlinkCmpDoc',
+							winhighlight = "Normal:BlinkCmpDoc,FloatBorder:BlinkCmpDocBorder,EndOfBuffer:BlinkCmpDoc",
 						},
 						auto_show = true,
 						auto_show_delay_ms = 500,

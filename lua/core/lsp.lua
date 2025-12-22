@@ -9,6 +9,16 @@ vim.lsp.enable({
 	"bashls", -- Zsh and Bash
 })
 
+vim.lsp.config("rust_analyzer", {
+	cmd = { vim.fn.expand("/Users/ubombar/.nix-profile/bin/rust-analyzer") },
+	settings = {
+		["rust-analyzer"] = {
+			cargo = { allFeatures = true },
+			checkOnSave = { command = "clippy" },
+		},
+	},
+})
+
 vim.diagnostic.config({
 	-- Show diagnostics as virtual text (inline)
 	virtual_text = {
