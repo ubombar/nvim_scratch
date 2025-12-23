@@ -48,6 +48,7 @@ return {
 					null_ls.builtins.formatting.shfmt, -- Shell
 
 					-- ✅ Linters
+					null_ls.builtins.diagnostics.golangci_lint, -- Go (THIS is what you want)
 					null_ls.builtins.diagnostics.eslint, -- JS/TS (requires eslint binary)
 					null_ls.builtins.diagnostics.shellcheck, -- Shell linting
 					null_ls.builtins.code_actions.shellcheck, -- Shell code actions
